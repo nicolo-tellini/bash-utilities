@@ -1,0 +1,8 @@
+#!/bin/bash
+
+var=$1
+var2=$2
+
+[ -z "$var2" ] && var2=5
+
+zcat $var | head -$var2
