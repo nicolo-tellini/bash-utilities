@@ -3,4 +3,11 @@
 var=$1
 var2=$2
 
-cat $var | head -$var2 | tail -1
+var3=$(neza_scer_onlyvars.min111.phy.model.gz)
+
+if test -z "$var3" 
+then
+     cat $var | head -$var2 | tail -1
+else
+     zcat $var | head -$var2 | tail -1
+fi
