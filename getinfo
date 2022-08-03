@@ -1,0 +1,44 @@
+#!/bin/bash
+
+helper ()
+{
+   echo "Syntax:"
+   echo
+   echo "getinfo <vcf> <samplename> <chr> <pos>"
+   echo
+}
+
+while getopts ":h" option; do
+   case $option in
+         h)
+         helper
+         exit;;
+   esac
+done
+
+vcf=$1
+sample=$2
+chr=$3
+pos=$4
+
+
+vcf_head=( $(cat $vcf | grep -m 1 "#CHR") )
+
+for i in "${!vcf_head[@]}"; do
+
+   # find the number of the colomun matching the name of the strain i-esimo
+   if [[ "${vcf_head[$i]}" == "${sample}" ]]; then
+   
+   # line number matching chr and pos
+   ln=$(grep -v "#" $vcf | awk -v chr="$chr" -v pos="$pos" '{if($1==chr && $2==pos) {print NR"\t"$0}}' | cut -f1)
+   
+   # i + 1 cause there is also the number of the line as additional field 
+   i=$(($i+1))
+
+   # string at line $ln 
+   str=$(grep -v "#" $vcf | sed -n "$ln p" | cut -f1,2,4,5,$i)
+
+   printf "CHR POS REF ALT GEN_$sample\n$str\n"
+
+   fi
+done
