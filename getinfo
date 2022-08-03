@@ -26,19 +26,11 @@ vcf_head=( $(cat $vcf | grep -m 1 "#CHR") )
 
 for i in "${!vcf_head[@]}"; do
 
-   # find the number of the colomun matching the name of the strain i-esimo
-   if [[ "${vcf_head[$i]}" == "${sample}" ]]; then
-   
-   # line number matching chr and pos
-   ln=$(grep -v "#" $vcf | awk -v chr="$chr" -v pos="$pos" '{if($1==chr && $2==pos) {print NR"\t"$0}}' | cut -f1)
-   
-   # i + 1 cause arrays are 0-based
-   i=$(($i+1))
+if [[ "${vcf_head[$i]}" == "${sample}" ]]; then
+  
+  i=$(($i+1))
+  str=$(awk -v chr="$chr" -v pos="$pos" -v i="$i" '{if($1==chr && $2==pos) {print $1"\t"$2"\t"$4"\t"$5"\t"$i;{exit}}}' $vcf)
+  printf "CHR POS REF ALT GEN_$sample\n$str\n"
 
-   # string at line $ln 
-   str=$(grep -v "#" $vcf | sed -n "$ln p" | cut -f1,2,4,5,$i)
-
-   printf "CHR POS REF ALT GEN_$sample\n$str\n"
-
-   fi
+ fi
 done
