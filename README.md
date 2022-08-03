@@ -3,6 +3,7 @@
 **ztail** shows the tail of a compressed file.
 
 usage : 
+\n
 `ztail myfile.gz`
   By default shows the last 5 lines
 
