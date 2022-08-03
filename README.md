@@ -25,6 +25,7 @@ usage:
  <br />
 `tline myfile 3`
 <br />
+It does work also for gzipped files.
  <br />
  <br />
 **getinfo** from an uncompressed vcf, for a specific sample, using chr and pos.
