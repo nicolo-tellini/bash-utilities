@@ -24,3 +24,13 @@ usage:
  <br />
  <br />
 `tline myfile 3`
+<br />
+ <br />
+ <br />
+**getinfo** rescues the strain genotype, from an uncompressed `vcf`, using chr and pos.
+usage:
+ <br />
+ <br />
+`getinfo <myvcf> <samplename> <chr> <pos>`
+
+
