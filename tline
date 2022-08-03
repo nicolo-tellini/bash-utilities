@@ -3,9 +3,9 @@
 var=$1
 var2=$2
 
-var3=$(echo $var2 | grep ".gz$")
+var3=$(echo $var | grep ".gz$")
 
-if test -z "$var3" 
+if [ -z "$var3" ]  
 then
      cat $var | head -$var2 | tail -1
 else
