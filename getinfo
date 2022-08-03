@@ -32,7 +32,7 @@ for i in "${!vcf_head[@]}"; do
    # line number matching chr and pos
    ln=$(grep -v "#" $vcf | awk -v chr="$chr" -v pos="$pos" '{if($1==chr && $2==pos) {print NR"\t"$0}}' | cut -f1)
    
-   # i + 1 cause there is also the number of the line as additional field 
+   # i + 1 cause arrays are 0-based
    i=$(($i+1))
 
    # string at line $ln 
