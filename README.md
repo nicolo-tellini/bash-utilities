@@ -27,7 +27,8 @@ usage:
 <br />
  <br />
  <br />
-**getinfo** rescues the strain genotype, from an uncompressed `vcf`, using chr and pos.
+**getinfo** rescues the genotype of a strain, from an uncompressed vcf, using chr and pos.
+ <br />
 usage:
  <br />
  <br />
