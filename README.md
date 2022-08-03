@@ -19,5 +19,7 @@ the second argument specifies the number of rows.
 Got an error at line 127?
  <br />
 **tline** shows exactly **that line**, where the error occurred.
-
+usage:
+ <br />
+ <br />
 `tline myfile 3`
