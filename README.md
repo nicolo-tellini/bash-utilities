@@ -4,11 +4,12 @@
  <br />
 usage : 
  <br />
+ <br />
 `ztail myfile.gz`
  <br />
-  By default shows the last 5 lines
+by default shows the last 5 lines.
  <br />
  <br />
-The second argument specify the number of rows 
+`ztail myfile.gz 10`
  <br />
-`ztail myfile.gz 10` 
+the second argument specify the number of rows 
