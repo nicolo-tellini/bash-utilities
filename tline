@@ -3,7 +3,7 @@
 var=$1
 var2=$2
 
-var3=$(neza_scer_onlyvars.min111.phy.model.gz)
+var3=$(echo $var2 | grep ".gz$")
 
 if test -z "$var3" 
 then
