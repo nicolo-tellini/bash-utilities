@@ -13,3 +13,10 @@ by default shows the last 5 lines.
 `ztail myfile.gz 10`
  <br />
 the second argument specifies the number of rows.
+ <br />
+ <br />
+ <br />
+Got an error at line 127?
+**tline** shows exactly **that line** where the error occurred.
+
+`tline myfile 3`
