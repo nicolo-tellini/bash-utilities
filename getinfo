@@ -6,6 +6,8 @@ helper ()
    echo
    echo "getinfo <vcf> <samplename> <chr> <pos>"
    echo
+   echo "note: getinfo requires pigz"
+   echo
 }
 
 while getopts ":h" option; do
@@ -21,16 +23,38 @@ sample=$2
 chr=$3
 pos=$4
 
+filename=$(basename -- "$vcf")
+
+extension="${filename##*.}"
+
+if [ $extension == "gz" ]
+then
+
+vcf_head=( $(zcat $vcf | grep -m 1 "#CHR") )
+ 
+else
 
 vcf_head=( $(cat $vcf | grep -m 1 "#CHR") )
 
+fi
+
 for i in "${!vcf_head[@]}"; do
 
-if [[ "${vcf_head[$i]}" == "${sample}" ]]; then
+ if [[ "${vcf_head[$i]}" == "${sample}" ]]; then
   
+  if [ $extension == "gz" ]
+  then
+
+  i=$(($i+1))
+  str=$(pigz -cd $vcf | awk -v chr="$chr" -v pos="$pos" -v i="$i" '{if($1==chr && $2==pos) {print $1"\t"$2"\t"$4"\t"$5"\t"$i;{exit}}}')
+  printf "CHR POS REF ALT GEN_$sample\n$str\n"
+
+  else
+
   i=$(($i+1))
   str=$(awk -v chr="$chr" -v pos="$pos" -v i="$i" '{if($1==chr && $2==pos) {print $1"\t"$2"\t"$4"\t"$5"\t"$i;{exit}}}' $vcf)
   printf "CHR POS REF ALT GEN_$sample\n$str\n"
 
+  fi
  fi
 done
