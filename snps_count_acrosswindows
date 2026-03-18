@@ -1,0 +1,38 @@
+## given a BED file
+## given an indexed multisample gVCF
+## count number of SNPs across either genes or arbitrary windows
+## If mode = gene than a fourth column in the BED must contain gene name
+bed=genes.clean.bed
+input=spar.gvcf.gz
+out=spar-snpscount-genes.txt
+mode=gene
+
+total=$(wc -l < "$bed")
+i=0
+
+if [[ "$mode" == "gene" ]]; then
+  while read -r chr start end gene_name; do
+    ((i++))
+    printf "\r[%d/%d] %s:%s-%s" "$i" "$total" "$chr" "$start" "$end" >&2
+
+    bcftools view -r "${chr}:${start}-${end}" -v snps "$input" -Ou \
+    | bcftools query -f '[%SAMPLE\t%GT\n]' \
+    | awk -v gene_name="$gene_name" -v w="${chr}:${start}-${end}" '
+        $2 ~ /1/ {c[$1]++}
+        END {for (s in c) print w, s, c[s], gene_name}
+      '
+  done < "$bed" > "$out"
+
+else
+  while read -r chr start end; do
+    ((i++))
+    printf "\r[%d/%d] %s:%s-%s" "$i" "$total" "$chr" "$start" "$end" >&2
+
+    bcftools view -r "${chr}:${start}-${end}" -v snps "$input" -Ou \
+    | bcftools query -f '[%SAMPLE\t%GT\n]' \
+    | awk -v w="${chr}:${start}-${end}" '
+        $2 ~ /1/ {c[$1]++}
+        END {for (s in c) print w, s, c[s]}
+      '
+  done < "$bed" > "$out"
+fi
