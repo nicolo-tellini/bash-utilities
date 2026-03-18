@@ -36,6 +36,6 @@ usage:
 `getinfo <myvcf> <samplename> <chr> <pos>`
 <br />
 <br />
-**snps_count_across_windows** from an multisample indexed gvcf and a BED, get per-sample, per-window snps counts. If mode = gene than a fourth column in the BED must contain gene name. It requireres BCFtools
+**snps_count_across_windows** from a multisample indexed gvcf and a BED file, get per-sample, per-window snps counts. If mode = gene than a fourth column in the BED must contain gene name. It requireres BCFtools
 
 
